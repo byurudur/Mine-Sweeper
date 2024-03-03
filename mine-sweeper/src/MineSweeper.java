@@ -1,14 +1,14 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class MineSweeper {
+public class MineSweeper { // Değerlendirme formu 5: MineSweeper sınıfı içerisine metodlar oluşturuldu.
     int row;
     int column;
     int size;
     String[][] mineField;
     String[][] userField;
     int counter = 0;
-    public MineSweeper(int row, int column)
+    public MineSweeper(int row, int column) // Değerlendirme formu 7: Matris boyutları parametre olarak kullanıcı tarafından belirlenir.
     {
         this.row = row;
         this.column = column;
@@ -20,7 +20,7 @@ public class MineSweeper {
     Scanner input = new Scanner(System.in);
     Random rand = new Random();
 
-    public void administrator(String[][] field)
+    public void administrator(String[][] field) // String tipinde 2 boyutlu bir array parametresi ile userField(Player Map veya mineField(Admin Map) oluşturur.
     {
         for (int i = 0; i < field.length; i++)
         {
@@ -55,7 +55,7 @@ public class MineSweeper {
             System.out.println();
         }
     }
-    public void mineAdder() // This method randomly plants mines to rows and columns.
+    public void mineAdder() // Değerlendirme formu 8: Diziye rastgele mayın yerleştirici.
     {
         int addToRow;
         int addToColumn;
@@ -71,7 +71,7 @@ public class MineSweeper {
         }
     }
 
-    public void gamePlay() // Game method involves mines, administrator field and user field.
+    public void gamePlay() // Değerlendirme formu 6: Kazanma, kaybetme gibi dinamikler tanımlandı.
     {
         int rowInput, colInput, winCounter = 0 ;
         mineAdder();
@@ -79,10 +79,10 @@ public class MineSweeper {
         System.out.println("====================");
         administrator(userField);
         while (true){
-            System.out.println("Row: ");
+            System.out.println("Row: "); // Değerlendirme formu 9: Row(satır) ve Column(Sütun) bilgisi kullanıcıdan alınır.
             rowInput = input.nextInt();
                 if (rowInput < 0 || rowInput > row - 1){
-                    System.out.println("Error: Out of bounds.");
+                    System.out.println("Error: Out of bounds."); // Değerlendirme formu 10: Koordinat, matriks sınırları içerisinde değilse uyarı verir.
                     continue;
                 }
             System.out.println("Column: ");
@@ -97,9 +97,9 @@ public class MineSweeper {
                 continue;
             }
 
-            gameMechanics(rowInput, colInput);
+            gameMechanics(rowInput, colInput); // Kullanıcının oyunu kaybetme ya da kazanma durumunda uygun mesajlar kullanıcıya gösterilir.
 
-            if ((mineField[rowInput][colInput].equals("*")))
+            if ((mineField[rowInput][colInput].equals("*"))) // Değerlendirme formu 11-13: Mayın seçilirse oyun bitirilir. Seçilmezse oyun alanı güncellenir ve oyun devam eder.
             {
                 System.out.println("BOOM. Game Over.");
                 System.out.println("You have lost.");
@@ -107,7 +107,7 @@ public class MineSweeper {
             }
             else
             {
-                playerMap(rowInput, colInput);
+                playerMap(rowInput, colInput); // Değerlendirme formu 14: Tüm noktalar doğru bir şekilde temizlendiyse oyunu kazanma kontrolü yapılır.
                 this.counter = 0;
                 System.out.println("Good choice");
                 winCounter++;
@@ -122,7 +122,8 @@ public class MineSweeper {
         }
     }
 
-
+    // Oyun mekanikleri; Kullanıcının girdiği noktanın sağ sol ön arka ve üst alt çapraz noktalarını kontrol eder.
+    // Var ise, counter sayacı arttırılır ve sayacın son geldiği rakam string.valueOf() tekniği ile yazırılır.
     public void gameMechanics(int rowInput, int colInput) {
         if (mineField[rowInput][colInput].equals("-")) {
             if ((colInput < column - 1) && mineField[rowInput][colInput + 1].equals("*"))

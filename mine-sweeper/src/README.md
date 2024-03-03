@@ -1,21 +1,26 @@
 ## MineSweeper Oyunu
 
-Bu Java programı, klasik bir Maden Tarlası oyununu simüle eder. Oyun, kullanıcıların mayınlardan kaçınarak alanı temizlemeye çalıştığı basit bir mantık oyunudur.
-
-### Kurulum
+Bu Java programı, belli bir düzen içerisinde oluşturulmuş alanda rastgele yerleştirilmiş mayınlardan kaçınmaya dayanmaktadır. Oyun, kullanıcıların yerleştirilen mayınları seçmeyerek alanı temizlemeye çalıştığı basit bir mantık oyunudur.
 
 - Java JDK'nın bilgisayarınızda yüklü olduğundan emin olun.
-- Minimum Java 8'de deneyin.
+
 
 ### Oynanış
 
-Oyun başladığında, kullanıcıya bir alan sunulur ve kullanıcı mayınları belirleyip işaretleyerek alanı temizlemeye çalışır. Kullanıcı, Main.java dosyasındaki parametrelerden kaça kaçlık bir oyun alanı yaratılacağını ayarlayabilir.
+Oyun başladığında, kullanıcıya default 5'e 5 bir alan sunulur veya kullanıcı alanı, MineSweeper parametrelerini kullanarak değiştirebilir. 
+
+#### `MineSweeper start = new MineSweeper(5,5);`
+
+Kullanıcı mayınları belirleyip işaretleyerek alanı temizlemeye çalışır.
+
+`Row: ` (input)
+
+`Column: ` (input)
 
 - Kullanıcı, koordinatlarını girdikten sonra, o alandaki mayınlarını kontrol eder ve her adımda bir alanı temizler.
 - Mayına dokunulduğunda veya oyun alanının 4'te 3'ü temizlendiğinde oyun biter.
 
 ## Metod Açıklamaları
-
 
 ### `public MineSweeper(int row, int column)`
 
