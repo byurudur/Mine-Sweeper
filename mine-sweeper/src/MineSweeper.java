@@ -39,7 +39,7 @@ public class MineSweeper {
         }
     }
 
-    public void player(int rowInput, int colInput)
+    public void playerMap(int rowInput, int colInput)
     {
         for (int i = 0; i < userField.length; i++) {
             for (int j = 0; j < userField[i].length; j++)
@@ -55,26 +55,26 @@ public class MineSweeper {
             System.out.println();
         }
     }
-    public void mines() // This method randomly plants mines to rows and columns.
+    public void mineAdder() // This method randomly plants mines to rows and columns.
     {
-        int row1;
-        int column1;
+        int addToRow;
+        int addToColumn;
         int count = 0;
         while (count != (size / 4)) {
-            row1 = rand.nextInt(row);
-            column1 = rand.nextInt(column);
-            if (!"*".equals(mineField[row1][column1])) {
-                mineField[row1][column1] = "*";
+            addToRow = rand.nextInt(row);
+            addToColumn = rand.nextInt(column);
+            if (!"*".equals(mineField[addToRow][addToColumn])) {
+                mineField[addToRow][addToColumn] = "*";
 
                 count++;
             }
         }
     }
 
-    public void game() // Game method involves mines, administrator field and user field.
+    public void gamePlay() // Game method involves mines, administrator field and user field.
     {
-        int rowInput, colInput, counter =0 ;
-        mines();
+        int rowInput, colInput, winCounter = 0 ;
+        mineAdder();
         administrator(mineField);
         System.out.println("====================");
         administrator(userField);
@@ -91,73 +91,75 @@ public class MineSweeper {
                     System.out.println("Error. Out of bounds.");
                     continue;
                 }
+            if(!userField[rowInput][colInput].equals("-"))
+            {
+                System.out.println("This coordinates have been already tried before. ");
+                continue;
+            }
 
-            gamePlay(rowInput, colInput);
-            player(rowInput, colInput);
+            gameMechanics(rowInput, colInput);
+
             if ((mineField[rowInput][colInput].equals("*")))
             {
-                System.out.println("BOOM");
+                System.out.println("BOOM. Game Over.");
+                System.out.println("You have lost.");
                 break;
             }
             else
             {
+                playerMap(rowInput, colInput);
+                this.counter = 0;
                 System.out.println("Good choice");
-                counter++;
-                if (counter == size - (size * 25 / 100))
+                winCounter++;
+                if (winCounter == size - (size * 25 / 100))
                 {
                     System.out.println("Congratulations. Perfect!");
+                    System.out.println("You have won!");
+                    input.close();
                     break;
                 }
             }
         }
     }
 
-    
-    public void gamePlay(int rowInput, int colInput) {
+
+    public void gameMechanics(int rowInput, int colInput) {
         if (mineField[rowInput][colInput].equals("-")) {
             if ((colInput < column - 1) && mineField[rowInput][colInput + 1].equals("*"))
             {
                 counter++;
             }
-            if ((colInput > 0) && mineField[rowInput][colInput - 1].equals(" - "))
-            {
-                counter++;            }
-
-            if ((rowInput > 0) && mineField[rowInput - 1][colInput].equals("*"))
-
-                counter++;            }
-
-            if ((rowInput < row - 1) && mineField[rowInput + 1][colInput].equals("*"))
-            {
-                counter++;            }
-
             if ((colInput > 0) && mineField[rowInput][colInput - 1].equals("*"))
             {
-                counter++;            }
-
+                counter++;
+            }
             if ((rowInput > 0) && mineField[rowInput - 1][colInput].equals("*"))
             {
-                counter++;            }
-
+                counter++;
+            }
+            if ((rowInput < row - 1) && mineField[rowInput + 1][colInput].equals("*"))
+            {
+                counter++;
+            }
             if (((rowInput > 0) && (colInput < column - 1) && mineField[rowInput - 1][colInput + 1].equals("*")))
             {
-                counter++;            }
-
+                counter++;
+            }
             if ((rowInput > 0) && (0 < colInput) && mineField[rowInput - 1][colInput - 1].equals("*"))
             {
-                counter++;            }
-
+                counter++;
+            }
             if (((rowInput < (row - 1)) && (colInput > 0) && mineField[rowInput + 1][colInput - 1].equals("*")))
             {
-                counter++;            }
-
-            if ((rowInput < (row - 1)) && (colInput < (column - 1) && mineField[rowInput + 1][colInput + 1].equals("*"))) {
-
                 counter++;
-
+            }
+            if ((rowInput < (row - 1)) && (colInput < (column - 1) && mineField[rowInput + 1][colInput + 1].equals("*")))
+            {
+                counter++;
             }
 
-        userField[rowInput][colInput] = String.valueOf(counter);
+            userField[rowInput][colInput] = String.valueOf(counter);
+        }
     }
 }
 
