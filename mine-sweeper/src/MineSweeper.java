@@ -5,57 +5,57 @@ public class MineSweeper {
     int row;
     int column;
     int size;
-    int[][] mineField;
-
-    String eksi = " - ";
-    String sifir = " 0 ";
-    int[][] userField;
-
+    String[][] mineField;
+    String[][] userField;
+    int counter = 0;
     public MineSweeper(int row, int column)
     {
         this.row = row;
         this.column = column;
-        this.mineField = new int[row][column];
-        this.userField = new int[row][column];
+        this.mineField = new String[row][column];
+        this.userField = new String[row][column];
         this.size = row * column;
     }
 
     Scanner input = new Scanner(System.in);
     Random rand = new Random();
 
-    public void administrator(int[][] field)
+    public void administrator(String[][] field)
     {
         for (int i = 0; i < field.length; i++)
         {
             for (int j = 0; j < field[i].length; j++)
             {
-                if (field[i][j] == -1)
-                {
-                    System.out.print(" * ");
-                }
-                else
-                {
-                    System.out.print(" - ");
-                }
+               if("*".equals(field[i][j]))
+               {
+                   System.out.print(field[i][j] + " ");
+               }else
+               {
+                   field[i][j] = "-";
+                   System.out.print(field[i][j] + " ");
+               }
             }
             System.out.println();
         }
     }
 
-    public void player(int[][] field)
+    public void player(int rowInput, int colInput)
     {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                if (userField[i][j] == 0){
-                    System.out.print(eksi);
-                }else {
-                    System.out.print(" " + field[i][j] + " ");
+        for (int i = 0; i < userField.length; i++) {
+            for (int j = 0; j < userField[i].length; j++)
+            {
+                if (userField[i][j].equals(userField[rowInput][colInput]))
+                {
+                    userField[rowInput][colInput] = String.valueOf(counter);
+                    System.out.print(userField[rowInput][colInput] + " ");
+                    continue;
                 }
+                System.out.print(userField[i][j] + " ");
             }
             System.out.println();
         }
     }
-    public void mines()
+    public void mines() // This method randomly plants mines to rows and columns.
     {
         int row1;
         int column1;
@@ -63,55 +63,43 @@ public class MineSweeper {
         while (count != (size / 4)) {
             row1 = rand.nextInt(row);
             column1 = rand.nextInt(column);
-            if (mineField[row1][column1] != 1) {
-                mineField[row1][column1] = -1;
+            if (!"*".equals(mineField[row1][column1])) {
+                mineField[row1][column1] = "*";
 
                 count++;
             }
         }
     }
 
-    public void game()
+    public void game() // Game method involves mines, administrator field and user field.
     {
         int rowInput, colInput, counter =0 ;
         mines();
         administrator(mineField);
         System.out.println("====================");
-        while (true)
-        {
-            player(userField);
+        administrator(userField);
+        while (true){
             System.out.println("Row: ");
             rowInput = input.nextInt();
-            if ((rowInput < 0) || (rowInput > row))
-            {
-                System.out.println("Error");
-                continue;
-            }
-            System.out.println("Col: ");
-            colInput = input.nextInt();
-
-            if ((colInput < 0) || (colInput > column))
-            {
-                System.out.println("Error");
-                continue;
-            }
-            gamePlay(rowInput, colInput);
-
-            for (int i = 0; i < userField.length; i++) {
-                for (int j = 0; j < userField[i].length; j++) {
-                    if ( userField[rowInput][colInput] == 0){
-                        System.out.print(userField[i][j] + "");
-                    }
+                if (rowInput < 0 || rowInput > row - 1){
+                    System.out.println("Error: Out of bounds.");
+                    continue;
                 }
-                System.out.println();
-            }
+            System.out.println("Column: ");
+            colInput = input.nextInt();
+                if (colInput < 0 || colInput > column - 1){
+                    System.out.println("Error. Out of bounds.");
+                    continue;
+                }
 
-            if ((mineField[rowInput][colInput] == -1))
+            gamePlay(rowInput, colInput);
+            player(rowInput, colInput);
+            if ((mineField[rowInput][colInput].equals("*")))
             {
                 System.out.println("BOOM");
                 break;
             }
-            else if ((mineField[rowInput][colInput] != -1))
+            else
             {
                 System.out.println("Good choice");
                 counter++;
@@ -124,55 +112,52 @@ public class MineSweeper {
         }
     }
 
+    
     public void gamePlay(int rowInput, int colInput) {
-        if (mineField[rowInput][colInput] == 0) {
-            if ((colInput < column - 1) && mineField[rowInput][colInput + 1] == -1)
+        if (mineField[rowInput][colInput].equals("-")) {
+            if ((colInput < column - 1) && mineField[rowInput][colInput + 1].equals("*"))
             {
-                userField[rowInput][colInput]++;
+                counter++;
             }
-            if ((colInput > 0) && mineField[rowInput][colInput - 1] == -1)
+            if ((colInput > 0) && mineField[rowInput][colInput - 1].equals(" - "))
             {
-                userField[rowInput][colInput]++;
-            }
-            if ((rowInput > 0) && mineField[rowInput - 1][colInput] == -1)
+                counter++;            }
 
-                userField[rowInput][colInput]++;
-            }
-            if ((rowInput < row - 1) && mineField[rowInput + 1][colInput] == -1)
-            {
-                userField[rowInput][colInput]++;
-            }
-            if ((colInput > 0) && mineField[rowInput][colInput - 1] == -1)
-            {
-                userField[rowInput][colInput]++;
-            }
-            if ((rowInput > 0) && mineField[rowInput - 1][colInput] == -1)
-            {
-                userField[rowInput][colInput]++;
-            }
-            if (((rowInput > 0) && (colInput < column - 1) && mineField[rowInput - 1][colInput + 1] == -1))
-            {
-                userField[rowInput][colInput]++;
-            }
-            if ((rowInput > 0) && (0 < colInput) && mineField[rowInput - 1][colInput - 1] == -1)
-            {
-                userField[rowInput][colInput]++;
-            }
-            if (((rowInput < (row - 1)) && (colInput > 0) && mineField[rowInput + 1][colInput - 1] == -1))
-            {
-                userField[rowInput][colInput]++;
-            }
-            if ((rowInput < (row - 1)) && (colInput < (column - 1) && mineField[rowInput + 1][colInput + 1] == -1)) {
-                userField[rowInput][colInput]++;
+            if ((rowInput > 0) && mineField[rowInput - 1][colInput].equals("*"))
 
-            boolean isClear = true;
+                counter++;            }
 
-            while (isClear)
+            if ((rowInput < row - 1) && mineField[rowInput + 1][colInput].equals("*"))
             {
+                counter++;            }
 
+            if ((colInput > 0) && mineField[rowInput][colInput - 1].equals("*"))
+            {
+                counter++;            }
+
+            if ((rowInput > 0) && mineField[rowInput - 1][colInput].equals("*"))
+            {
+                counter++;            }
+
+            if (((rowInput > 0) && (colInput < column - 1) && mineField[rowInput - 1][colInput + 1].equals("*")))
+            {
+                counter++;            }
+
+            if ((rowInput > 0) && (0 < colInput) && mineField[rowInput - 1][colInput - 1].equals("*"))
+            {
+                counter++;            }
+
+            if (((rowInput < (row - 1)) && (colInput > 0) && mineField[rowInput + 1][colInput - 1].equals("*")))
+            {
+                counter++;            }
+
+            if ((rowInput < (row - 1)) && (colInput < (column - 1) && mineField[rowInput + 1][colInput + 1].equals("*"))) {
+
+                counter++;
 
             }
-            }
-        }
+
+        userField[rowInput][colInput] = String.valueOf(counter);
     }
+}
 
