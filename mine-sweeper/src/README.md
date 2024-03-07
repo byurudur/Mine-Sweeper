@@ -2,9 +2,6 @@
 
 Bu Java programı, belli bir düzen içerisinde oluşturulmuş alanda rastgele yerleştirilmiş mayınlardan kaçınmaya dayanmaktadır. Oyun, kullanıcıların yerleştirilen mayınları seçmeyerek alanı temizlemeye çalıştığı basit bir mantık oyunudur.
 
-- Java JDK'nın bilgisayarınızda yüklü olduğundan emin olun.
-
-
 ### Oynanış
 
 Oyun başladığında, kullanıcıya default 5'e 5 bir alan sunulur veya kullanıcı alanı, MineSweeper parametrelerini kullanarak değiştirebilir. 
@@ -19,6 +16,14 @@ Kullanıcı mayınları belirleyip işaretleyerek alanı temizlemeye çalışır
 
 - Kullanıcı, koordinatlarını girdikten sonra, o alandaki mayınlarını kontrol eder ve her adımda bir alanı temizler.
 - Mayına dokunulduğunda veya oyun alanının 4'te 3'ü temizlendiğinde oyun biter.
+
+### Kaybetme Senaryosu
+
+![img.png](img.png)
+
+### Kazanma Senaryosu
+
+![img_1.png](img_1.png)
 
 ## Metod Açıklamaları
 
