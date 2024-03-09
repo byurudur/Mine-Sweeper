@@ -1,6 +1,4 @@
 
-![aganinBanner](https://github.com/deerborg/Patika_practices/assets/152931069/fa60248a-a67e-485d-94cc-2d701dfe9abf)
-
 ## MineSweeper Oyunu
 
 Bu Java programı, belli bir düzen içerisinde oluşturulmuş alanda rastgele yerleştirilmiş mayınlardan kaçınmaya dayanmaktadır. Oyun, kullanıcıların yerleştirilen mayınları seçmeyerek alanı temizlemeye çalıştığı basit bir mantık oyunudur.
